@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+div.card:hover {
+  /* border: 5px solid black; */
+  box-shadow: 6px 6px lightgrey;
+}
+div.card {
+  background-color: lightgrey;
+  margin: 5px;
+  box-shadow: 4px 4px lightgrey;
+  align-content: center;
+  width: 300px;
+}
+
+div.desc {
+  text-align: center;
+}
