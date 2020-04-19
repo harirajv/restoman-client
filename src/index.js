@@ -19,10 +19,8 @@ const mock = new MockAdapter(axios);
 
 mock.onGet('/users').reply(200, {
   users: [{
-    dish: {
-      id: 1,
-      image: 'https://image.shutterstock.com/image-vector/profile-blank-icon-empty-photo-600w-535853269.jpg'
-    }
+    id: 1,
+    image: 'https://image.shutterstock.com/image-vector/profile-blank-icon-empty-photo-600w-535853269.jpg'
   }]
 });
 

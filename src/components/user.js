@@ -15,7 +15,8 @@ class Users extends React.Component {
     componentDidMount() {
         axios.get('/users')
             .then(res => {
-                this.setState({ data: [res.data.users], isLoading: false })
+                console.log('response = ', res);
+                this.setState({ data: res.data.users, isLoading: false })
             });
 
         this.setState({ isLoading:true })
