@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import {Router,Link,Route,Switch} from "react-router-dom"
-import MockAdapter from 'axios-mock-adapter';
+// import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import { createHashHistory } from "history"
 import AdminComponent from "./components/admin"
-import Dishes from "./components/dish"
+import {Dishes} from "./components/dish"
 import DishDetails from "./components/dishinfo"
 import Users from './components/user';
 
@@ -15,14 +15,14 @@ const history = createHashHistory({
   hashType: "slash"
 });
 
-const mock = new MockAdapter(axios);
+// const mock = new MockAdapter(axios);
 
-mock.onGet('/users').reply(200, {
-  users: [{
-    id: 1,
-    image: 'https://image.shutterstock.com/image-vector/profile-blank-icon-empty-photo-600w-535853269.jpg'
-  }]
-});
+// mock.onGet('/dishes').reply(200, {
+//   users: [{
+//     id: 1,
+//     image: 'https://image.shutterstock.com/image-vector/profile-blank-icon-empty-photo-600w-535853269.jpg'
+//   }]
+// });
 
 ReactDOM.render(
   <Router history={history}>
