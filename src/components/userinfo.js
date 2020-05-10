@@ -1,7 +1,7 @@
 import React from "react"
 import axios from "axios"
 import {withRouter} from "react-router-dom"
-class DishDetails extends React.Component
+class UserDetails extends React.Component
 {
     constructor(props)
     {
@@ -10,8 +10,8 @@ class DishDetails extends React.Component
     }
     componentDidMount()
     {
-        console.log(this.props)
-        
+        console.log(this.props);
+
         (async () => {
             const response = await axios({
               url: "http://5e80572e0eb3ec0016e91059.mockapi.io/dishes/Dishes/"+this.props.match.params.dishId,
@@ -36,6 +36,7 @@ class DishDetails extends React.Component
         <h1>{this.state.id}</h1>
         <h1>{this.state.name}</h1>
         </div>)
+        
     }
 }
-export default withRouter(DishDetails);
+export default withRouter(UserDetails);

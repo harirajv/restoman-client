@@ -1,6 +1,6 @@
 import React from "react"
 
-import {getState} from "./dish"
+import {getState} from "./new_order"
 class Card extends React.Component
 {
     constructor(props)
@@ -8,6 +8,8 @@ class Card extends React.Component
         super(props);
         this.state={};
         this.changeQuantity=this.changeQuantity.bind(this);
+        this.handleEditDish = this.handleEditDish.bind(this);
+        this.handleActivateDish = this.handleActivateDish.bind(this)
     }
     changeQuantity(e)
     {
@@ -16,6 +18,18 @@ class Card extends React.Component
         // var item_quantity_map={};
         // item_quantity_map[dish_id]=quantity;
         getState(this.props.dish.id,quantity)
+    }
+    handleEditDish()
+    {
+        window.location.href="/#/edit_dish/"+this.props.dish.id;
+    }
+    handleActivateDish()
+    {
+        if (window.confirm("Are you sure to change the activation")) {
+            console.log("You pressed OK!");
+          } else {
+            console.log("You pressed Cancel!");
+          }
     }
     render()
     {
@@ -27,13 +41,30 @@ class Card extends React.Component
                         <p>{this.props.dish.id}</p>
                         
                         <p>{this.props.dish.name}</p>
-                        {this.props.person=="waiter" && 
+                        {this.props.option=='order' && 
                             (
                             <div>
                                 <label>Quantity</label>
                                 <input type="number" onChange={this.changeQuantity}></input>
                             </div>
                             )}
+                        
+                        {this.props.role=="chef" && this.props.option=="view" && 
+                            (
+                            <div>
+                                <button onClick={this.handleActivateDish}>Activate/Deactivate</button>
+                            </div>
+                            )
+                        }
+                        {this.props.role=="admin" && this.props.option=="view" && 
+                            (
+                            <div>
+                                <button onClick={this.handleActivateDish}>Activate/Deactivate</button>
+                                <button onClick={this.handleEditDish}>Edit Dish</button>
+                            </div>
+                            )
+                        }
+                        
                     {/* <Link to={editlink}>Edit</Link>&nbsp;&nbsp;&nbsp; */}
                     {/* <a href="#" onClick={(e)=> {var result=confirm("Are you sure to delete?");if(result){e.preventDefault();this.props.handler(this.props.uid)}}}>Delete</a> */}
                     </div>

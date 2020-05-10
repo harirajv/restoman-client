@@ -5,24 +5,24 @@ import {withRouter} from "react-router-dom"
 
 import NavBar from "./navbar";
 
-// function getState(dishId,quantity)
-// {
-//     var existing_order=this.state.order;
+function getState(dishId,quantity)
+{
+    var existing_order=this.state.order;
     
-//     existing_order[dishId]=parseInt(quantity);
+    existing_order[dishId]=parseInt(quantity);
     
-//     this.setState((prevState)=>{ return {order:existing_order}});
-//     // console.log(order)
-// }
-// export {getState};
-class Dishes extends React.Component
+    this.setState((prevState)=>{ return {order:existing_order}});
+    // console.log(order)
+}
+export {getState};
+class NewOrder extends React.Component
 {
     constructor(props)
     {
         super(props);
         this.state={data:[],loading:false,order:{}};
         this.handleSave=this.handleSave.bind(this);
-        // getState=getState.bind(this);
+        getState=getState.bind(this);
     }
     componentDidMount()
     {
@@ -39,9 +39,7 @@ class Dishes extends React.Component
         console.log(this.state)
     }
     render()
-    {   
-        
-        var dishes= this.state.data.map((dish)=>{ return <Card dish={dish} option="view" role={localStorage.getItem('role')}/>});
+    {   var dishes= this.state.data.map((dish)=>{ return <Card dish={dish} option="order" role={localStorage.getItem('role')}/>});
         var order_summary=this.state.data.map((dish)=>{ if(dish.id in this.state.order) return <div><li>{dish.name}={this.state.order[dish.id]}</li></div>});
         
         return(
@@ -60,12 +58,12 @@ class Dishes extends React.Component
                 </div>
                 {this.state.data.length!=0 && (<div>{dishes}</div>)}
                 {/* have this button only for waiter */}
-                {/* <button onClick={this.handleSave}>Save Order</button>
+                <button onClick={this.handleSave}>Save Order</button>
                 <div class="pull right">
                     <ul>{order_summary}</ul>
-                </div> */}
+                </div>
             </div>
         )
     }
 }
-export {Dishes};
+export {NewOrder};
