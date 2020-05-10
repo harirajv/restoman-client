@@ -13,7 +13,7 @@ import DishAvailability from "./components/dish_availability"
 import Home from "./components/home"
 import { NewOrder } from './components/new_order';
 import EditDish from "./components/edit_dish"
-
+import Orders from "./components/orders"
 import UserDetails from "./components/userinfo"
 const history = createHashHistory({
   basname: "",
@@ -41,7 +41,9 @@ ReactDOM.render(
       <Route exact path="/new_order"><NewOrder/></Route>
       <Route exact path="/users"><Users/></Route>
       <Route exact path="/users/:dishId"><UserDetails/></Route>
+      <Route exact path="/orders"><Orders/></Route>
       <PrivateRoute exact path="/edit_dish/:dishId" component={EditDish}></PrivateRoute>
+      
     </Switch>
 </Router>,
   document.getElementById('root')
