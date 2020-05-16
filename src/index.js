@@ -50,7 +50,7 @@ ReactDOM.render(
 );
 
 function PrivateRoute({ component:Component, ...rest }) {
-  console.log(localStorage.getItem('role'))
+  
   return (
     <Route
       {...rest}

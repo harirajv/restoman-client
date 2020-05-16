@@ -10,7 +10,7 @@ class DishDetails extends React.Component
     }
     componentDidMount()
     {
-        console.log(this.props)
+        
         
         (async () => {
             const response = await axios({
