@@ -2,7 +2,7 @@ import React from "react"
 import axios from "axios"
 import Card from "./card"
 import {withRouter} from "react-router-dom"
-
+import config from "../config"
 import NavBar from "./navbar";
 
 // function getState(dishId,quantity)
@@ -27,9 +27,13 @@ class Dishes extends React.Component
     componentDidMount()
     {
         (async ()=>{
-            // const response = await axios.get("/dishes");
-            // console.log(response)
-            const response= await axios.get("http://5e80572e0eb3ec0016e91059.mockapi.io/dishes/Dishes/");
+            
+            const response = await axios({
+                method: 'GET',
+                url:config.endpoints.dishes,
+                headers: {'Authorization':'Bearer '+config.authorization.auth_token}
+            })
+            console.log(response.headers)
             this.setState({data:response.data,loading:false})
         })();
         this.setState({loading:true})

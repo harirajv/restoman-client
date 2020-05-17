@@ -4,6 +4,7 @@ import Card from './card';
 import UserCard from "./user_card"
 import { withRouter } from 'react-router-dom';
 import NavBar from './navbar';
+import config from "../config"
 
 class Users extends React.Component {
     constructor(props) {
@@ -19,7 +20,12 @@ class Users extends React.Component {
         (async ()=>{
             // const response = await axios.get("/dishes");
             // console.log(response)
-            const response= await axios.get("http://5e80572e0eb3ec0016e91059.mockapi.io/dishes/Dishes/");
+            const response= await axios({
+                method : 'GET',
+                url:  config.endpoints.users,
+                headers: {'Authorization':'Bearer '+config.authorization.auth_token}
+
+            });
             this.setState({data:response.data,loading:false})
         })();
         this.setState({loading:true})
