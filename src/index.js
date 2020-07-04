@@ -15,6 +15,8 @@ import { NewOrder } from './components/new_order';
 import EditDish from "./components/edit_dish"
 import Orders from "./components/orders"
 import UserDetails from "./components/userinfo"
+import LoginPage from "./components/login"
+import AddUser from "./components/add_user"
 const history = createHashHistory({
   basname: "",
   hashType: "slash"
@@ -28,21 +30,44 @@ const history = createHashHistory({
 //     image: 'https://image.shutterstock.com/image-vector/profile-blank-icon-empty-photo-600w-535853269.jpg'
 //   }]
 // });
-
+var is_logged_in = false;
+if(localStorage.getItem('auth_token'))
+{
+  is_logged_in = true;
+}
 ReactDOM.render(
   <Router history={history}>
     <Switch>
-      <Route exact path="/"><Home/></Route>
-      <Route exact path="/admin"><AdminComponent/></Route>
-      <Route exact path="/dishes" component={Dishes}></Route>
-      <Route exact path="/dishes/:dishId"><DishDetails/></Route>
-      <Route exact path="/users"><Users/></Route>
-      <Route exact path="/dish/activation"><DishAvailability/></Route>
-      <Route exact path="/new_order"><NewOrder/></Route>
-      <Route exact path="/users"><Users/></Route>
-      <Route exact path="/users/:dishId"><UserDetails/></Route>
-      <Route exact path="/orders"><Orders/></Route>
-      <PrivateRoute exact path="/edit_dish/:dishId" component={EditDish}></PrivateRoute>
+      <Route exact path="/login">
+        {is_logged_in==true?<Redirect to="/"/> : <LoginPage/>}</Route>
+      <Route exact path="/">
+      {is_logged_in==true?<Home/> : <LoginPage/>}</Route>
+      <Route exact path="/admin">
+      {is_logged_in==true?<AdminComponent/> : <LoginPage/>}</Route>
+      <Route exact path="/dishes">
+      {is_logged_in==true?<Dishes/> : <LoginPage/>}
+      </Route>
+      <Route exact path="/dishes/:dishId">
+      {is_logged_in==true?<DishDetails/> : <LoginPage/>}</Route>
+      <Route exact path="/users">
+      {is_logged_in==true?<Users/> : <LoginPage/>}</Route>
+      <Route exact path="/dish/activation">
+      {is_logged_in==true?<DishAvailability/> : <LoginPage/>}</Route>
+      <Route exact path="/new_order">
+      {is_logged_in==true?<NewOrder/> : <LoginPage/>}</Route>
+      <Route exact path="/users">
+      {is_logged_in==true?<Users/> : <LoginPage/>}</Route>
+      <Route exact path="/users/:dishId">
+      {is_logged_in==true?<UserDetails/> : <LoginPage/>}</Route>
+      <Route exact path="/orders">
+      {is_logged_in==true?<Orders/> : <LoginPage/>}
+        </Route>
+      <PrivateRoute exact path="/edit_dish/:dishId">
+      {is_logged_in==true?<EditDish/> : <LoginPage/>}
+      </PrivateRoute>
+      <PrivateRoute exact path="/add_user">
+      {is_logged_in==true?<AddUser/> : <LoginPage/>}
+      </PrivateRoute>
       
     </Switch>
 </Router>,

@@ -6,6 +6,11 @@ class NavBar extends React.Component {
         super(props);
         this.state={};
     }
+    onLogOut()
+    {
+        localStorage.removeItem('auth_token');
+        window.href="/#/login"
+    }
     render()
     {
         return(
@@ -15,6 +20,7 @@ class NavBar extends React.Component {
                     <a href="" class="nav-item default-link nav-link text-info">New Order</a>
                     <a href="" class="nav-item default-link nav-link text-info">Users</a>
                     <a href="" class="nav-item default-link nav-link text-info">All orders</a>
+                    <a href="" onClick={this.onLogOut} class="nav-item default-link nav-link text-info">Logout</a>
                 </div>
             </nav>
             
