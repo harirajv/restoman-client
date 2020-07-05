@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {Router,Link,Route,Switch, Redirect} from "react-router-dom"
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom"
 // import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import { createHashHistory } from "history"
 import AdminComponent from "./components/admin"
 import {Dishes} from "./components/dish"
 import DishDetails from "./components/dishinfo"
@@ -17,10 +22,6 @@ import Orders from "./components/orders"
 import UserDetails from "./components/userinfo"
 import LoginPage from "./components/login"
 import AddUser from "./components/add_user"
-const history = createHashHistory({
-  basname: "",
-  hashType: "slash"
-});
 
 // const mock = new MockAdapter(axios);
 
@@ -36,7 +37,7 @@ if(localStorage.getItem('auth_token'))
   is_logged_in = true;
 }
 ReactDOM.render(
-  <Router history={history}>
+  <Router>
     <Switch>
       <Route exact path="/login">
         {is_logged_in==true?<Redirect to="/"/> : <LoginPage/>}</Route>
