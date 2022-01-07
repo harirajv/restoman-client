@@ -30,20 +30,15 @@ class Dishes extends React.Component
         this.delayedCallback = lodash.debounce(this.pagechange,1000);
         
     }
-    componentDidMount()
-    {
-        (async ()=>{
-            
-            const response = await axios({
-                method: 'GET',
-                url:config.endpoints.dishes,
-                params : {'per_page':1},
-                headers: {'Authorization':'Bearer '+config.authorization.auth_token}
-            })
-            console.log(response.headers)
-            this.setState({data:response.data,loading:false, current_page:response.headers['page'], total_pages:response.headers['total-pages']})
-        })();
+    async componentDidMount() {
         this.setState({loading:true})
+        await axios.get(config.endpoints.dishes, { params: { 'per_page': 1 } })
+        .then(response => this.setState({
+            data: response.data,
+            loading: false,
+            currentPage: response.headers['page'],
+            totalPages: response.headers['total-pages']
+        }));
     }
     handleSave()
     {
@@ -122,20 +117,20 @@ class Dishes extends React.Component
     render()
     {   
         
-        var dishes= this.state.data.map((dish)=>{ return <Card dish={dish} option="view" role={localStorage.getItem('role')}/>});
+    var dishes= this.state.data.map((dish)=>{ return <Card dish={dish} key={dish.id} option="view" role={localStorage.getItem('role')}/>});
         var order_summary=this.state.data.map((dish)=>{ if(dish.id in this.state.order) return <div><li>{dish.name}={this.state.order[dish.id]}</li></div>});
         
         return(
             <div>
                 <NavBar/>
-                <div class="row">
-                    <div class="col-lg-12 text-right">
-                        <span class="m-r-xs">Pages
-                            <input class="form-control" value={this.state.current_page} style={{width:"70px",display: "inline"}}  type="number" onChange={this.handleChangePage}/> of {this.state.total_pages}
+                <div className="row">
+                    <div className="col-lg-12 text-right">
+                        <span className="m-r-xs">Pages
+                            <input className="form-control" value={this.state.current_page} style={{width:"70px",display: "inline"}}  type="number" onChange={this.handleChangePage}/> of {this.state.total_pages}
                         </span>
-                        <div class="btn-group">
-                            <button onClick={this.handlePrevPage} disabled={this.state.current_page==1} class="btn"><i class="fa fa-chevron-left"></i></button>
-                            <button onClick={this.handleNextPage} disabled={this.state.current_page==this.state.total_pages} class="btn"><i class="fa fa-chevron-right"></i></button>
+                        <div className="btn-group">
+                            <button onClick={this.handlePrevPage} disabled={this.state.current_page==1} className="btn"><i className="fa fa-chevron-left"></i></button>
+                            <button onClick={this.handleNextPage} disabled={this.state.current_page==this.state.total_pages} className="btn"><i className="fa fa-chevron-right"></i></button>
                         </div>
                     </div>
                 </div>

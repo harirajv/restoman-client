@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Link,
   Route,
   Switch,
@@ -22,6 +22,7 @@ import Orders from "./components/orders"
 import UserDetails from "./components/userinfo"
 import LoginPage from "./components/login"
 import AddUser from "./components/add_user"
+import * as serviceWorker from './serviceWorker';
 
 // const mock = new MockAdapter(axios);
 
@@ -31,47 +32,64 @@ import AddUser from "./components/add_user"
 //     image: 'https://image.shutterstock.com/image-vector/profile-blank-icon-empty-photo-600w-535853269.jpg'
 //   }]
 // });
-var is_logged_in = false;
-if(localStorage.getItem('auth_token'))
-{
-  is_logged_in = true;
+axios.interceptors.request.use(request => {
+  const token = localStorage.getItem('token');
+  if(token && (request.url.startsWith('http://localhost:3000/api') || request.url === 'http://localhost:3000/logout')) {
+    request.headers.common.Authorization = token;
+  }
+  return request;
+});
+
+axios.interceptors.response.use(response => {
+  return response;
+}, error => {
+  if(error.response.status == 401) {
+    localStorage.clear();
+    window.location.href = '/';
+  }
+  return Promise.reject(error);
+});
+
+function isLoggedIn() {
+  return localStorage.getItem('token') !== null;
 }
+
 ReactDOM.render(
-  <Router>
+  <BrowserRouter>
     <Switch>
       <Route exact path="/login">
-        {is_logged_in==true?<Redirect to="/"/> : <LoginPage/>}</Route>
+        {isLoggedIn()==true?<Redirect to="/"/> : <LoginPage/>}</Route>
       <Route exact path="/">
-      {is_logged_in==true?<Home/> : <LoginPage/>}</Route>
+      {isLoggedIn()==true?<Home/> : <LoginPage/>}</Route>
       <Route exact path="/admin">
-      {is_logged_in==true?<AdminComponent/> : <LoginPage/>}</Route>
+      {isLoggedIn()==true?<AdminComponent/> : <LoginPage/>}</Route>
       <Route exact path="/dishes">
-      {is_logged_in==true?<Dishes/> : <LoginPage/>}
+      {isLoggedIn()==true?<Dishes/> : <LoginPage/>}
       </Route>
       <Route exact path="/dishes/:dishId">
-      {is_logged_in==true?<DishDetails/> : <LoginPage/>}</Route>
+      {isLoggedIn()==true?<DishDetails/> : <LoginPage/>}</Route>
       <Route exact path="/users">
-      {is_logged_in==true?<Users/> : <LoginPage/>}</Route>
+      {isLoggedIn()==true?<Users/> : <LoginPage/>}</Route>
       <Route exact path="/dish/activation">
-      {is_logged_in==true?<DishAvailability/> : <LoginPage/>}</Route>
+      {isLoggedIn()==true?<DishAvailability/> : <LoginPage/>}</Route>
       <Route exact path="/new_order">
-      {is_logged_in==true?<NewOrder/> : <LoginPage/>}</Route>
+      {isLoggedIn()==true?<NewOrder/> : <LoginPage/>}</Route>
       <Route exact path="/users">
-      {is_logged_in==true?<Users/> : <LoginPage/>}</Route>
+      {isLoggedIn()==true?<Users/> : <LoginPage/>}</Route>
       <Route exact path="/users/:dishId">
-      {is_logged_in==true?<UserDetails/> : <LoginPage/>}</Route>
+      {isLoggedIn()==true?<UserDetails/> : <LoginPage/>}</Route>
       <Route exact path="/orders">
-      {is_logged_in==true?<Orders/> : <LoginPage/>}
+      {isLoggedIn()==true?<Orders/> : <LoginPage/>}
         </Route>
       <PrivateRoute exact path="/edit_dish/:dishId">
-      {is_logged_in==true?<EditDish/> : <LoginPage/>}
+      {isLoggedIn()==true?<EditDish/> : <LoginPage/>}
       </PrivateRoute>
       <PrivateRoute exact path="/add_user">
-      {is_logged_in==true?<AddUser/> : <LoginPage/>}
+      {isLoggedIn()==true?<AddUser/> : <LoginPage/>}
       </PrivateRoute>
       
     </Switch>
-</Router>,
+</BrowserRouter>,
   document.getElementById('root')
 );
 
@@ -89,3 +107,5 @@ function PrivateRoute({ component:Component, ...rest }) {
     />
   );
 }
+
+serviceWorker.unregister();

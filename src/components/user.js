@@ -5,6 +5,7 @@ import UserCard from "./user_card"
 import { withRouter } from 'react-router-dom';
 import NavBar from './navbar';
 import config from "../config"
+import AuthService from '../services/auth.service';
 
 class Users extends React.Component {
     constructor(props) {
@@ -15,20 +16,12 @@ class Users extends React.Component {
         };
     }
 
-    componentDidMount()
-    {
-        (async ()=>{
-            // const response = await axios.get("/dishes");
-            // console.log(response)
-            const response= await axios({
-                method : 'GET',
-                url:  config.endpoints.users,
-                headers: {'Authorization':'Bearer '+config.authorization.auth_token}
-
-            });
-            this.setState({data:response.data,loading:false})
-        })();
-        this.setState({loading:true})
+    async componentDidMount() {
+        this.setState({ isLoading:true });
+        await axios.get(config.endpoints.users).then(response => this.setState({
+            data: response.data,
+            isLoading: false
+        }));
     }
 
     render() {
